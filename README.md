@@ -47,4 +47,7 @@
 
 Get started with Angular, learn the fundamentals and explore advanced topics on our documentation website.
 
-- [Getting Started][quickstart]
+- Package Installation
+- Configuration
+- Dockerfile
+- docker-compose
