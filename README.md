@@ -53,7 +53,8 @@ Get started with Angular, learn the fundamentals and explore advanced topics on 
 - docker-compose
 
 ### Package Installation - Add package dependencies in package.json
-<i>Note:</i><span><h5>Make sure you have to choose compatible version</h5></span>
+#
+#### *Note*: Make sure you have to choose compatible version
 ```
 "@angular-builders/custom-webpack": "8.1.0",
 "@types/node": "8.9.5",
