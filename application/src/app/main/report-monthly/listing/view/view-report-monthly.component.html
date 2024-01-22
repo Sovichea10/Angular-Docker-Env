@@ -1,0 +1,34 @@
+<div class="content-cnt page-layout blank">
+  
+    <div  class="header  p-24 h-80" fxLayout="row" fxLayoutAlign="start center"  >
+        <div fxFlex="50"  >
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">របាយការណ៍</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">ព័ត៌មានរបាយការណ៍</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="content" >
+        <div  class="tab-content p-24">
+            <div *ngIf = " isLoading " >
+            <mat-spinner style="margin:auto" diameter = " 50 " ></mat-spinner>
+        </div>
+        <mat-tab-group *ngIf = " !isLoading ">
+            <mat-tab label="ព័ត៌មានរបាយការណ៍">
+                <ng-container *ngIf="data != '' ">
+                <overview [data] = "data"></overview>
+                </ng-container>
+            </mat-tab>
+            <mat-tab label="ផ្ទុកឯកសារភ្ជាប់">
+                <ng-container *ngIf="data != '' ">
+                <attachment-file [data] = "data"></attachment-file>
+                </ng-container>
+            </mat-tab>
+        </mat-tab-group>
+        </div>
+    </div>
+</div>

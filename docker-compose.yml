@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  angular:
+    container_name: ossr-f-angular
+    # build time
+    build:
+      context: ./ossr-web-angular/.
+      dockerfile: Devk8s.Dockerfile
+      args:
+        API_URL: 'https://dev-kube-osr.mpwt.gov.kh/api'
+        PDF_URL: 'https://dev-kube-osr.mpwt.gov.kh/api'
+        PRINT_URL: 'https://dev-kube-osr.mpwt.gov.kh/api'
+        FILE_URL: 'https://dev-kube-osr.mpwt.gov.kh/api'
+        USERNAME: '0965416704'
+        PASSWORD: '111111'
+    ports:
+        - "1035:80"
+    networks:
+        - ossr_web
+networks:
+  ossr_web:
+    driver: bridge

@@ -1,0 +1,36 @@
+<ng-container *ngIf = " mode == 'READONLY' || mode == 'EDIT' ">
+    
+    <form fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form" [formGroup]="form"  >
+            
+        <mat-form-field appearance="outline" *ngIf = " mode != 'READONLY'  " >
+            <mat-label> {{ title }}</mat-label>
+
+            
+            <input (click)="picker.open()" matInput formControlName="control" [matDatepicker]="picker" style = " cursor:pointer " [readonly] = " true ">
+            
+            <!-- <mat-icon *ngIf = " !canSeeComment() " matSuffix class="secondary-text">{{ icon }}</mat-icon> -->
+           
+
+            <mat-error *ngIf = " mode != 'READONLY' " >
+                <span *ngIf="form.get('control').hasError('required')">សូម​បញ្ចូល​ {{title}}</span>
+            </mat-error>
+
+
+            <mat-datepicker-toggle *ngIf = " !canSeeComment() " matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker touchUi></mat-datepicker>
+
+        </mat-form-field>
+
+        <mat-form-field *ngIf = " mode == 'READONLY'  " appearance="outline">
+            <mat-label> {{ title }}</mat-label>
+
+            <input    matInput [value] =" formatValue " required [readonly] = " mode == 'READONLY' " >
+            
+            <mat-icon *ngIf = " !canSeeComment() " matSuffix class="secondary-text">{{ icon }}</mat-icon>
+         
+
+        </mat-form-field>
+
+
+    </form>
+</ng-container>

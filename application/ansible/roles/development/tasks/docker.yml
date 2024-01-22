@@ -1,0 +1,68 @@
+# tasks file for docker
+- name: Build Docker image with build args
+  docker_image:
+    name: osr-f-angular
+    tag: "{{ tag }}"
+    build:
+      path: ./../../F-ANGULAR
+      dockerfile: Devk8s.Dockerfile
+      args:
+        API_URL: "{{ API_URL }}"
+        PDF_URL: "{{ PDF_URL }}"
+        PRINT_URL: "{{ PRINT_URL }}"
+        FILE_URL: "{{ FILE_URL }}"
+        USERNAME: "{{ USERNAME }}"
+        PASSWORD: "{{ PASSWORD }}"
+    source: build
+  delegate_to: localhost
+
+- name: Tag image
+  docker_image:
+    name: osr-f-angular
+    tag: "{{ tag }}"
+    repository: "{{ item.name }}:{{ item.port }}/sovichea10/osr-f-angular:{{ tag }}"
+    force_tag: true
+    source: local
+  with_items:
+    - "{{ registry }}"
+  delegate_to: localhost
+
+- name: Login to private registry
+  docker_login:
+    registry: "{{ item.name }}:{{ item.port }}"
+    username: "{{ item.user }}"
+    password: "{{ item.password }}"
+    reauthorize: yes
+  with_items:
+    - "{{ registry }}"
+  delegate_to: localhost
+
+- name: Push image to private registry
+  docker_image:
+    name: "{{ item.name }}:{{ item.port }}/sovichea10/osr-f-angular"
+    tag: "{{ tag }}"
+    push: yes
+  with_items:
+    - "{{ registry }}"
+  delegate_to: localhost
+
+- name: Remove Tag image
+  docker_image:
+    name: osr-f-angular
+    tag: "{{ tag }}"
+    state: absent
+  delegate_to: localhost
+
+- name: Remove Docker Image
+  docker_image:
+    name: "{{ item.name }}:{{ item.port }}/sovichea10/osr-f-angular"
+    tag: "{{ tag }}"
+    state: absent
+  with_items:
+    - "{{ registry }}"
+  delegate_to: localhost
+
+
+
+
+

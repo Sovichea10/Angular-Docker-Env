@@ -1,0 +1,24 @@
+<section class=" p-24 " fxLayout="column" >
+  <mat-tab-group>
+
+    <mat-tab >
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon mat-icon-m-b-25">map</mat-icon>
+        <span >គ្រប់គ្រង់ទីតាំងផ្តល់សេវា</span>
+      </ng-template>
+      <div class=" pr-24 pl-24 " style="padding-top: 20px;">
+        <div fxLayoutAlign="end">
+            <button mat-stroked-button (click)="openLocationDialog('CREATE', null)" color="accent"> 
+              <mat-icon>map</mat-icon> 
+              <span style="font-family: KhmerOSsys, Roboto,Helvetica Neue, sans-serif;margin-left: 5px;">
+                ជ្រើសរើសទីតាំង
+              </span> 
+            </button>
+        </div>
+      </div>
+      <location [locations] = " data?.location_users "  (selectedData)="refreshAttachment($event)"></location> 
+    </mat-tab>
+    
+ 
+  </mat-tab-group>
+</section>

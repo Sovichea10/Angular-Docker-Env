@@ -1,0 +1,82 @@
+<h2 mat-dialog-title style="font-family: KhmerOSsys, Roboto,Helvetica Neue, sans-serif;"> ជ្រើសរើសទីតាំង </h2>
+<mat-dialog-content class="mat-typography">
+   
+            <form class=" p-24 " fxLayout="column" name="form" [formGroup]="form" >
+                <div 
+                fxLayout="row" 
+                fxLayout.xs="column" 
+                fxFlex="1 0 auto"
+                >
+                <div fxFlex="100" fxLayout="column">
+                        <mat-form-field  appearance="outline">
+                            <mat-label>ជ្រើសរើសកម្រឹតទីតាំង</mat-label>
+                            <mat-select  formControlName="level">
+                                <mat-option *ngFor="  let row of data?.setup?.levels " [value]=" row?.id ">
+                                    {{row?.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-icon matSuffix class="secondary-text">outlined_flag</mat-icon>
+                        </mat-form-field>    
+                
+                        <mat-form-field appearance="outline">
+                            <mat-label> ឈ្មោះទីតាំង</mat-label>
+                            <input matInput formControlName="key"  >
+                            <mat-icon matSuffix class="secondary-text">map</mat-icon>
+                        </mat-form-field>
+                        <div fxLayoutAlign="center center">
+                            <button mat-icon-button (click)=" listLocation() "   > 
+                                <mat-icon  class="mat-icon  s-40 btn-icon-searching-search" >search</mat-icon>
+                            </button>
+                        </div>
+                      
+                </div>
+                   
+                </div>
+            </form>
+
+            <!-- <mat-progress-bar *ngIf="isLoading" mode="buffer"></mat-progress-bar>-->
+            
+            <section class=" p-24 " fxLayout="column">
+                <ng-container *ngIf=" locations?.length > 0 ">
+                    <table mat-table [dataSource]="locations" class="mat-elevation-z8">
+                    
+                        <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> ឈ្មោះទីតាំង </th>
+                        <td mat-cell *matCellDef="let element"> {{ element?.name }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="level">
+                            <th mat-header-cell *matHeaderCellDef> កម្រឹត </th>
+                            <td mat-cell *matCellDef="let element"> {{ element?.level?.name }} </td>
+                        </ng-container>
+                 
+                        <ng-container matColumnDef="select">
+                            <th mat-header-cell *matHeaderCellDef>                          
+                            </th>
+                            <td mat-cell *matCellDef="let row; let i = index;">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                                (change)="$event ? selection.toggle(row) : null"
+                                                [checked]="selection.isSelected(row)"
+                                                [aria-label]="checkboxLabel(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>         
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                            (click)="selection.toggle(row)">
+                        </tr>
+                    </table>
+                </ng-container>
+                <ng-container *ngIf=" locations?.length == 0 ">
+                    <div fxLayout="column" fxLayoutAlign="center center">
+                        <mat-icon role="img" class="mat-icon notranslate s-100 mb-16 select-message-icon hint-text material-icons mat-icon-no-color" aria-hidden="true"> toc </mat-icon>
+                        <span class="select-message-text hint-text"><span>គ្មានទិន្នន័យ</span></span>
+                    </div>
+                </ng-container>
+            </section> 
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button color="primary"  [disabled]="selection.selected.length == 0"  mat-raised-button (click)=" submit() ">ជ្រើសរើស</button>
+    <button mat-button mat-dialog-close>បិទ</button>
+</mat-dialog-actions>

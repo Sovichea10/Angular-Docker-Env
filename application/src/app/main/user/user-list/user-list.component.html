@@ -1,0 +1,146 @@
+<section class="content-frm-title pl-24 pr-24 pt-24 pb-20 ">
+    <div class="h2">
+      <span> អ្នកប្រើប្រាស់ / បញ្ជី </span>
+    </div>
+</section>
+<section class="filter">
+    <div fxLayout="row"  fxLayoutAlign="start center" >
+        <mat-form-field fxFlex="30" style="margin-top: 9px;padding: 10px;">
+            <mat-label > ស្វែងរក </mat-label>
+            <!-- <input matInput [(ngModel)]=" key " maxlength="100"> -->
+
+            <input matInput (keyup)="searchUser($event)" type="text">
+
+            <mat-hint>តាមរយៈ​ ឈ្មោះ លេខទូរសព្ទ អ៊ុីម៉ែល</mat-hint>
+        </mat-form-field>
+
+        <!-- <mat-form-field  fxFlex="20" class="mat-form">
+            <mat-select  placeholder="តួនាទី" [(ngModel)]="role">
+                <mat-option [value]="0"> 
+                    ទាំងអស់ 
+                </mat-option>
+                <mat-option *ngFor="let row of setup?.roles" [value]="row.id">
+                   <span [ngStyle]="{'color': row.color}">{{row.name}}</span> 
+                  </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field  fxFlex="20">
+            <mat-select placeholder="ទីតាំង" [(ngModel)]="location">
+            <mat-option [value]= 0 >
+                ទាំងអស់  
+            </mat-option>
+            <mat-option *ngFor="let row of setup?.locations" [value]="row.id" >
+                <span [ngStyle]="{'color': row.color}">{{row.name}}</span> 
+            </mat-option>
+            </mat-select>
+        </mat-form-field>  -->
+
+        <div fxFlex="10">
+            <button mat-icon-button (click)=" listing() " [disabled]=" isSearching "> <mat-icon  class="mat-icon  s-40 btn-icon-searching-search" >search</mat-icon></button>
+        </div>
+        <div fxLayoutAlign="end " fxFlex>
+            <button mat-mini-fab class=" btn-icon-searching-add " [routerLink]="['/users/create']"><mat-icon >add</mat-icon></button>
+        </div>
+    </div>
+
+</section>
+
+
+<ng-container *ngIf = " isSearching ">
+    <section >
+        <div 
+        fxLayout="row" 
+        fxLayout.xs="column" 
+        fxLayoutAlign="center center" 
+        fxFlex="1 0 auto"
+        >
+        
+            <div fxFlex="100"  fxLayoutAlign="center center"  class="pr-4" style="margin-top:100px;">
+                <mat-spinner></mat-spinner>
+            </div>
+        </div>
+    </section>
+   
+</ng-container>
+<ng-container *ngIf = " !isSearching ">
+    <section class="listing">
+
+        <ng-container *ngIf=" data?.length > 0 ">
+
+            <!--
+                * App table component -> display the record
+                * dataSource -> list record pass to table to display
+                * tableColumnInfo -> table detail(field table name, binding field)
+            -->
+            <app-table [dataSource]="data" [tableColumnInfo]="tableColumnInfo" [sortDirection]="'desc'" (sortClicked)="onSort($event)"></app-table>
+
+            <!-- 
+                * App paginator component -> display pagination page under the table
+                * Purpos -> view previous page or next page
+            -->
+            <app-paginator [length]="total" [page]="page" [limit]="limit" (pageChanged)="onPageChanged($event)"></app-paginator>
+
+
+        </ng-container>
+
+        <ng-container *ngIf=" data?.length == 0 ">
+            <div fxLayout="column" fxLayoutAlign="center center" fxflex>
+                <mat-icon role="img" class="mat-icon notranslate s-100 mb-16 select-message-icon hint-text material-icons mat-icon-no-color" aria-hidden="true"> toc </mat-icon>
+                <span class="select-message-text hint-text" *ngIf=" isSearching "><span>កំពុងទាញទិន្នន័យ</span></span>
+                <span class="select-message-text hint-text" *ngIf=" !isSearching "><span>គ្មានទន្និន័យ</span></span>
+            </div>
+
+        </ng-container>
+
+
+    </section>
+</ng-container>
+
+<!-- ================================= Column Template ====================================== -->
+
+<ng-template #nameTpl let-element let-item let-index>
+    <div
+    class="hover-pionter"
+    (click)="goDetail(element)"
+    >
+        {{ element?.name.toUpperCase() }}
+    </div>
+   
+</ng-template>
+
+<ng-template #contactTpl let-element let-item let-index>
+    <div
+    class="hover-pionter"
+    (click)="goDetail(element)"
+    >
+        {{ element?.phone }} <br />
+        {{ element?.email }}
+    </div>
+ </ng-template>
+
+ <ng-template #roleTpl let-element let-item let-index>
+    <div
+    class="hover-pionter"
+    (click)="goDetail(element)"
+    >
+        <span *ngIf = " element?.police_station " >{{ element?.police_station?.kh_name }} <br /></span>
+        <span style="color: blue;">{{ element?.type?.name }}</span>
+    </div>
+
+ </ng-template>
+
+ <ng-template #actionTpl let-element let-item let-index>
+    <button class="click-icon" mat-icon-button color="accent" [routerLink]="['/users/'+element?.id+'/overview']">
+        <mat-icon>edit</mat-icon>
+    </button>
+    <button class="click-icon" mat-icon-button (click)="onDelete(element)" color="warn">
+        <mat-icon>delete</mat-icon>
+    </button>
+
+ </ng-template>
+
+
+
+
+  

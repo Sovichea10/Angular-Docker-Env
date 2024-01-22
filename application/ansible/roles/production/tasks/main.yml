@@ -1,0 +1,10 @@
+---
+# tasks file for development
+
+- name: production
+  include_tasks: "{{ item }}"
+  with_items:
+    - docker.yml
+    - gitlab.yml
+    - k8s.yml
+    - pre-setup.yml

@@ -1,0 +1,47 @@
+# tasks file for docker
+- name: Build Docker image
+  docker_image:
+    name: calendar-api
+    tag: "{{ tag }}"
+    build:
+      path: ./../../ADMIN_GATEWAY
+      dockerfile: Dockerfile
+    source: build
+
+- name: Tag image
+  docker_image:
+    name: calendar-api
+    tag: "{{ tag }}"
+    repository: "{{ item.name }}:{{ item.port }}/sovichea10/calendar-api:{{ tag }}"
+    force_tag: true
+    source: local
+  with_items:
+    - "{{ registry }}"
+  no_log: true
+
+- name: Remove Tag image
+  docker_image:
+    name: calendar-api
+    tag: "{{ tag }}"
+    state: absent
+
+- name: Login to private registry
+  docker_login:
+    registry: "{{ item.name }}:{{ item.port }}"
+    username: "{{ item.user }}"
+    password: "{{ item.password }}"
+    reauthorize: yes
+  with_items:
+    - "{{ registry }}"
+  no_log: true
+
+- name: Push image to private registry
+  docker_image:
+    name: "{{ item.name }}:{{ item.port }}/sovichea10/calendar-api"
+    tag: "{{ tag }}"
+    push: yes
+  with_items:
+    - "{{ registry }}"
+
+
+

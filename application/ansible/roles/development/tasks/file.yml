@@ -1,0 +1,6 @@
+
+- name: Copy Build Number file to k8s cluster Control Plane
+  copy:
+    src: '../../../../scripts/build-number.sh'
+    dest: '{{ gitlab_path }}/scripts'
+    mode: 0777

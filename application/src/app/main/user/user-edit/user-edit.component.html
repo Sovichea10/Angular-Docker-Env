@@ -1,0 +1,22 @@
+<section class="content-frm-title pl-24 pr-24 pt-24 pb-20 ">
+    <div class="h2">
+
+        <span> អ្នកប្រើប្រាស់ / Edit: {{data?.name.toUpperCase()}} </span>
+
+    </div>
+
+    <div fxLayoutAlign="end " fxFlex>
+        <button mat-mini-fab class=" btn-icon-searching-add " [routerLink]="['/users']"><mat-icon >arrow_back</mat-icon></button>
+    </div>
+</section>
+
+   <!-- Import form Customer -->
+   <mat-progress-bar *ngIf="isLoading" mode="buffer"></mat-progress-bar>
+   <ng-container *ngIf="data">
+        <user-form [data] = " data " [action] = " 'UPDATE' " (emitSetupData)="getSetupData($event)" ></user-form>
+        <!-- <ng-container *ngIf="setup">
+            <user-tab [data] = " data " [action] = " 'LIST' " [setup]="setup" ></user-tab>
+        </ng-container> -->
+       
+    </ng-container>
+   <!-- Import form Customer End -->

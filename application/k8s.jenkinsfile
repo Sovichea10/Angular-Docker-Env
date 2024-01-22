@@ -1,0 +1,85 @@
+pipeline {
+    agent any
+
+    environment {
+        // Telegram
+        BOT_TOKEN = credentials('ansible_bot_token')
+        CHAT_ID = credentials('ansible_chat_id')
+
+        // Ansible
+        VAULT_PASS = credentials('ansible_vault_pass')
+
+        // SonarQube
+        TOKEN = credentials('sonarqube-token')
+
+    }
+
+    stages {
+    // =============================================================================>> Pre-Stage
+        stage('Start') {
+            steps {
+                echo "Remove all status changes in Server..."
+                sh 'git reset --hard'
+            }
+        }
+    //  ============================================================================>> Stage Build
+        stage('Directory Permission') {
+            steps {
+                echo "Start using Ansible"
+                sh "sudo chmod 755 *"
+            }
+        }
+        stage('Export Build Number') {
+            steps{
+                sh 'export TAG=${BUILD_NUMBER}_dev && echo "export current_tag=$TAG" > scripts/build-number.sh'
+            }
+        }
+        stage('Build Image and Push to private registry') {
+            steps {
+                echo "Build Application in progress..."
+                sh 'bash -e scripts/development.sh'
+            }
+        }
+
+    //  ============================================================================>> Stage Test
+        stage('Scanning Test') {
+            steps {
+                    withSonarQubeEnv(installationName: 'sonarqube-10.1') {
+                    sh "sonar-scanner -Dsonar.projectKey=OSR-Web-Angular -Dsonar.sources=. -Dsonar.host.url=https://sonar-scan.mpwt.gov.kh -Dsonar.login=$TOKEN"
+                }
+            }
+        }
+
+    //  ============================================================================>> Stage Deploy
+        stage('Apply K8s Deployment') {
+            steps {
+                echo "Deploy to k8s cluster..."
+                sh 'ssh -o StrictHostKeyChecking=no root@172.19.16.27 "cd /apps/osr/angular-web;\
+                bash -e scripts/k8s-dev.sh;\
+                "'
+            }
+        }
+    //  ============================================================================>> After Stage
+        stage('Ending') {
+            steps {
+                echo "Job Done!!!"
+            }
+        }
+    }
+    post{
+        success{
+            sh '''
+            bash scripts/dev-alert-telegram.sh SUCCESS🟢;\
+            echo "Clear CRIO-Images after post...";\
+            echo "delay 1 minute after the old service has been terminated";\
+            sleep 60 && ansible-playbook ansible/images.yml;\
+            rm -rf scripts/build-number.sh;\
+            '''
+        }
+        failure{
+            sh '''
+            bash scripts/dev-alert-telegram.sh FAILURE🔴;\
+            '''
+        }
+    }
+}

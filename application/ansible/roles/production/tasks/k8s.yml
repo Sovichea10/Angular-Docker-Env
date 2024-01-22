@@ -1,0 +1,39 @@
+- name: Create K8s Namespace
+  k8s:
+    name: "{{ namespace }}"
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Create ConfigMap
+  k8s:
+    definition:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: calendar-api
+        namespace: "{{ namespace }}"
+      data:
+        APP_DEBUG: "{{ item.APP_DEBUG }}"
+        APP_TIMEZONE: "{{ item.APP_TIMEZONE }}"
+        DB_CONNECTION: "{{ item.DB_CONNECTION }}"
+        DB_HOST: "{{ item.DB_HOST }}"
+        DB_PORT: "{{ item.DB_PORT }}"
+        DB_DATABASE: "{{ item.DB_DATABASE }}"
+        DB_USERNAME: "{{ item.DB_USERNAME }}"
+        DB_PASSWORD: "{{ item.DB_PASSWORD }}"
+        ## Telegram Dev
+        CHAT_ID: "{{ item.CHAT_ID }}"
+        BOT_TOKEN: "{{ item.BOT_TOKEN }}"
+        # FCM Key
+        FCM_KEY: "{{ item.FCM_KEY }}"
+  with_items:
+    - "{{ k8s_configmap }}"
+
+# - name: Remove ConfigMap
+#   k8s:
+#     name: osr-admin
+#     namespace: osr
+#     api_version: v1
+#     kind: ConfigMap
+#     state: absent

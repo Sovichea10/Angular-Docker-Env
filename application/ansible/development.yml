@@ -1,0 +1,8 @@
+---
+- hosts: development
+  gather_facts: no
+  any_errors_fatal: no
+  debugger: on_failed
+  become: yes
+  roles:
+    - development

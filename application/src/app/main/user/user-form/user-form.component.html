@@ -1,0 +1,149 @@
+
+    <form class=" p-24 " fxLayout="column" name="form" [formGroup]="form" (submit)=" submit() ">
+        <!-- <div class="h4 mb-24">
+            <span style="color: rgba(4, 155, 229, 1);">ព័ត៌មានផ្ទាល់ខ្លួន</span>
+            <mat-divider></mat-divider>
+        </div> -->
+
+        <div 
+        fxLayout="row" 
+        fxLayout.xs="column" 
+        fxFlex="1 0 auto"
+        >
+            <div fxFlex="30" class="pr-4">
+                <app-portrait 
+                [mode] = " mode "
+                [title]=" "
+                [index]=" 1 " 
+                [src]=" src " 
+                (srcChange)='srcChange($event)'>
+                </app-portrait>
+            </div>
+            <div fxFlex="70" fxLayout="column">
+
+                <mat-form-field appearance="outline">
+                    <mat-label> ឈ្មោះ </mat-label>
+                    <input matInput formControlName="name" required >
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-error>
+                        <span *ngIf="form.get('name').hasError('required')">សូម​បញ្ចូល​ឈ្មោះរបស់លោកអ្នក</span>  
+                        <span *ngIf="form.get('name').hasError('maxlength')">ពាក្យសំងាត់ត្រូវមានចំនួន ៦០ខ្ទង់យ៉ាងច្រើនបំផុត</span>
+                        <span *ngIf="form.get('name').hasError('servererror')">{{ form.get('name').errors.servererror }}</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" *ngIf="setup">
+                    <mat-label>ប៉ុស្តិ៍</mat-label>
+                    <mat-select  formControlName="police_station_id" >
+                        <mat-option *ngFor="  let row of setup?.police_station " [value]=" row?.id ">
+                            {{row?.kh_name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix class="secondary-text">outlined_flag</mat-icon>
+                    <mat-error>
+                        <span *ngIf="form.get('police_station_id').hasError('required')">
+                            សូមជ្រើសរើសតួនាទី
+                        </span>
+                       
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" *ngIf="setup">
+                    <mat-label>ជ្រើសរើសតួនាទី</mat-label>
+                    <mat-select  formControlName="role_id" >
+                        <mat-option *ngFor="  let row of setup.role " [value]=" row?.id ">
+                            {{row?.kh_name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix class="secondary-text">outlined_flag</mat-icon>
+                    <mat-error>
+                        <span *ngIf="form.get('role_id').hasError('required')">
+                            សូមជ្រើសរើសតួនាទី
+                        </span>
+                        
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>លេខទូរសព្ទ</mat-label>
+                    <input matInput formControlName="phone" required >
+                    <mat-icon matSuffix class="secondary-text">smartphone</mat-icon>
+                    <mat-error>
+                        <span *ngIf="form.get('phone').hasError('required')">សូម​បញ្ចូល​លេខទូរសព្ទរបស់លោកអ្នក</span>  
+                        <span *ngIf="form.get('phone').hasError('pattern')">សូម​បញ្ចូល​លេខទូរសព្ទតាមទម្រង់ ឧទាហរណ៍: 0965416704 </span>  
+                        <span *ngIf="form.get('phone').hasError('servererror')">{{ form.get('phone').errors.servererror }}</span>
+                    </mat-error>
+                </mat-form-field>
+
+            
+                <mat-form-field appearance="outline" *ngIf="action == 'CREATE'">
+                    <mat-label>ពាក្យសម្ងាត់ </mat-label>
+                    <input matInput formControlName="password"  name="password"  [type]="hidePassword ? 'password' : 'text'" required>
+                    <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{ !hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    <mat-error>
+                        <span *ngIf="form.get('password').hasError('required')">សូម​បញ្ចូល​ពាក្យ​សម្ងាត់​ថ្មីរបស់​អ្នក</span>  
+                        <span *ngIf="form.get('password').hasError('minlength')">ពាក្យសំងាត់ត្រូវមានចំនួន ៦ខ្ទង់យ៉ាងហោចណាស់.</span>
+                        <span *ngIf="form.get('password').hasError('maxlength')">ពាក្យសំងាត់ត្រូវមានចំនួន ២០ខ្ទង់យ៉ាងច្រើនបំផុត</span>
+                        <span *ngIf="form.get('password').hasError('servererror')">{{ form.get('password').errors.servererror }}</span>
+                    </mat-error> 
+                </mat-form-field>
+             
+                <mat-form-field appearance="outline">
+                    <mat-label>លេខអត្តសញ្ញាណបណ្ណ</mat-label>
+                    <input matInput formControlName="national_id" >
+                    <mat-icon matSuffix class="secondary-text">chrome_reader_mode</mat-icon>
+                    <mat-error>
+                        <span *ngIf="form.get('national_id').hasError('required')">សូម​បញ្ចូល​លេខអត្តសញ្ញាណបណ្ណ</span>  
+                        <span *ngIf="form.get('national_id').hasError('servererror')">{{ form.get('national_id').errors.servererror }}</span>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>លេខកាតមន្រ្តី</mat-label>
+                    <input matInput formControlName="officer_id" >
+                    <mat-icon matSuffix class="secondary-text">chrome_reader_mode</mat-icon>
+                    <mat-error>
+                        <span *ngIf="form.get('officer_id').hasError('required')">សូម​បញ្ចូល​លេខកាតមន្រ្តី</span>  
+                        <span *ngIf="form.get('officer_id').hasError('servererror')">{{ form.get('officer_id').errors.servererror }}</span>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>ដំណែង</mat-label>
+                    <input matInput formControlName="position" >
+                    <mat-icon matSuffix class="secondary-text">how_to_reg</mat-icon>
+                    <mat-error>
+                        <span *ngIf="form.get('position').hasError('required')">សូម​បញ្ចូល​ដំណែង</span>  
+                        <span *ngIf="form.get('position').hasError('servererror')">{{ form.get('position').errors.servererror }}</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>ងារ</mat-label>
+                    <input matInput formControlName="title" >
+                    <mat-icon matSuffix class="secondary-text">how_to_reg</mat-icon>
+                    <mat-error>
+                        <span *ngIf="form.get('title').hasError('required')">សូម​បញ្ចូល​ងារ</span>  
+                        <span *ngIf="form.get('title').hasError('servererror')">{{ form.get('title').errors.servererror }}</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- <mat-slide-toggle formControlName="is_active"> បើកឲ្យដំណើរកា ឫ​ មិន </mat-slide-toggle> <br> -->
+
+            </div>
+
+        </div>
+
+
+        <!-- <mat-divider></mat-divider> -->
+        <mat-progress-bar *ngIf="isLoading" mode="buffer"></mat-progress-bar>
+        <div 
+            fxLayout="row" 
+            fxLayout.xs="column" 
+            fxLayoutAlign="end center" 
+            fxFlex="1 0 auto"
+            >
+            <button [disabled]="isLoading" *ngIf="action == 'CREATE'" mat-raised-button color="primary">បង្កើតថ្មី</button>
+            <button *ngIf="action != 'CREATE'" mat-raised-button color="primary">កែតម្រូវ</button>
+
+        </div>
+
+    </form>

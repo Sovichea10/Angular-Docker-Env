@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'KhmerOSsys';
+  src: url('KhmerOSsys.eot');
+  src: url('KhmerOSsys.woff2') format('woff2'),
+       url('KhmerOSsys.woff') format('woff'),
+       url('KhmerOSsys.ttf') format('truetype'),
+       url('KhmerOSsys.svg#KhmerOSsys') format('svg'),
+       url('KhmerOSsys.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}

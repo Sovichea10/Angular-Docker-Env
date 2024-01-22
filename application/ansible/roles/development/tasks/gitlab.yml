@@ -1,0 +1,44 @@
+# task gitlab
+# ------------------------------------------------------------------------------
+- name: Create Directory
+  file:
+    path: '/{{ item }}'
+    state: directory
+    group: root
+    owner: root
+    mode: 0777
+  with_items:
+    - apps/osr
+
+- name: Ensure gitlab is a known host for k8s control plane
+  lineinfile:
+    dest: /home/root/.ssh/known_hosts
+    create: yes
+    state: present
+    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa gitlab.mpwt.gov.kh') }}"
+
+- name: Perform a hard reset in k8s control plane
+  shell: git reset --hard
+  args:
+    chdir: "{{ gitlab_path }}"
+  ignore_errors: true
+
+- name: Clone repo and update the repo in k8s control plane
+  ansible.builtin.git:
+    repo: git@gitlab.mpwt.gov.kh:ossr/ossr-web-angular.git
+    dest: "{{ gitlab_path }}"
+    version: k8s-dev
+    key_file: /home/root/.ssh/id_rsa
+  # become_user: vichea
+# ------------------------------------------------------------------------------
+
+# task file to set permission
+- name: Set permissions on the destination path
+  ansible.builtin.file:
+    path: "{{ gitlab_path }}"
+    owner: root
+    group: root
+    mode: "0777"
+    recurse: yes
+
+

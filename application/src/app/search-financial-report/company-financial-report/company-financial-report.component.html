@@ -1,0 +1,35 @@
+
+<ng-container *ngIf="token">
+    <div id="login" fxLayout="column">
+
+        <form-search-report 
+            [title]="'តារាងប្រាក់លម្អិតតាមក្រុមហ៊ុន'"
+            [profitCenters]="profitCenters"  
+            [companies]="companies"
+            [date_cycles]="date_cycles"
+            [setup] ="setup"
+            [formReport] ="'company'"
+            [showButton] ="'all'"
+            [apiUrlPdf] = "'/report/report/company-financial-request-file'"
+            [apiUrlExcel] = "'/report/report/company-financial-request-excel-file'"
+            [token] = "token"
+            [system] = "system"
+            [profit_center] = "profit_center"
+            [profit_center_admin] = "profit_center"
+            [company]       = "company"
+            >
+        </form-search-report>
+        
+    </div>
+</ng-container>
+<ng-container *ngIf="!token">
+    <div id="login" fxLayout="column">
+        <div id="login-form-wrapper" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px">
+            <div fxLayout="row" fxLayoutAlign="center center">
+                <p style="font-size:1.2em;">
+                    Token not found
+                </p>
+            </div>
+        </div>
+    </div>
+</ng-container>

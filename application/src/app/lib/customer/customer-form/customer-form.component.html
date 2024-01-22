@@ -1,0 +1,281 @@
+<div fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+
+    <form class="p-24 " fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form" [formGroup]="form" (submit)=" submit() ">
+        <div class="h4 mb-24">
+            <span style="color: rgba(4, 155, 229, 1);">ព័ត៌មានផ្ទាល់ខ្លួន - {{ action }}</span>
+            <mat-divider></mat-divider>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center" fxFlex="1 0 auto">
+            <div fxFlex="30" class="pr-4">
+                <app-portrait [src]=" src " (srcChange)='srcChange($event)'></app-portrait>
+            </div>
+            <div fxFlex="70" class="pr-4" fxLayout="column">
+                <mat-form-field appearance="outline">
+                    <mat-label> ឈ្មោះជាភាសាខ្មែរ </mat-label>
+                    <input matInput formControlName="kh_name" required>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+
+                    <mat-error>
+                        <span *ngIf="form.get('kh_name').hasError('required')">
+                        សូមបញ្ជូលឈ្មោះជាភាសាខ្មែរ
+                    </span>
+                        <span *ngIf="form.get('kh_name').hasError('servererror')">{{ form.get('kh_name').errors.servererror }}</span>
+                        <span *ngIf="form.get('kh_name').hasError('minlength')">ពាក្យកំណត់ត្រឹមតែ 150</span>
+                    </mat-error>
+
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>ឈ្មោះជាភាសា​ឡាតាំង</mat-label>
+                    <input matInput formControlName="en_name" required>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-error>
+                        <span *ngIf="form.get('en_name').hasError('required')">
+                        សូមបញ្ជូលឈ្មោះឡាតាំង
+                    </span>
+                        <span *ngIf="form.get('en_name').hasError('servererror')">{{ form.get('en_name').errors.servererror }}</span>
+                        <span *ngIf="form.get('en_name').hasError('minlength')">ពាក្យកំណត់ត្រឹមតែ 150</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-radio-group formControlName="sex" aria-label="Select an option" class="pb-20">
+                    <mat-radio-button value="Male">ប្រុស</mat-radio-button> &nbsp;&nbsp;
+                    <mat-radio-button value="Female">ស្រី</mat-radio-button>
+                </mat-radio-group>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>ថ្ងៃខែឆ្នាំកំណើត</mat-label>
+                    <input (click)="picker.open()" matInput formControlName="date_of_birth" [matDatepicker]="picker" [min]="minDate" [max]="maxDate" required>
+                    <mat-error>
+                        <span *ngIf="form.get('date_of_birth').hasError('required')">
+                        សូមបញ្ជូលថ្ងៃខែឆ្នាំកំណើត
+                    </span>
+                        <span *ngIf="form.get('date_of_birth').hasError('servererror')">{{ form.get('date_of_birth').errors.servererror }}</span>
+
+                    </mat-error>
+
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker touchUi></mat-datepicker>
+
+                </mat-form-field>
+
+
+                <mat-form-field appearance="outline">
+                    <mat-label>មុខរបរ</mat-label>
+                    <input matInput formControlName="occupation" required>
+                    <mat-icon matSuffix class="secondary-text">work_outline</mat-icon>
+                    <mat-error>
+                        <span *ngIf="form.get('occupation').hasError('required')">
+                        សូមបញ្ជូលមុខរបរ
+                    </span>
+                        <span *ngIf="form.get('occupation').hasError('servererror')">{{ form.get('occupation').errors.servererror }}</span>
+                        <span *ngIf="form.get('occupation').hasError('minlength')">ពាក្យកំណត់ត្រឹមតែ 150</span>
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+        </div>
+
+
+        <!-- ==================================================================== DOCUMENT ======================================================== -->
+        <div class="h4 mb-24">
+            <span style="color: rgba(4, 155, 229, 1);">ឯកសារ</span>
+            <mat-divider></mat-divider>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+            <mat-form-field *ngIf = " action != 'VIEW' " appearance="outline" fxFlex="33" style="width: 80%;">
+                <mat-label>ជ្រើសរើសឯកសារ</mat-label>
+                <mat-select formControlName="document_type_id" required>
+                    <mat-option *ngFor="  let row of owner_document_types " [value]=" row?.id ">
+                        {{row?.name_kh}}
+                    </mat-option>
+
+                </mat-select>
+                <mat-icon matSuffix class="secondary-text">book</mat-icon>
+                <mat-error>
+                    <span *ngIf="form.get('document_type_id').hasError('required')">
+                    សូមជ្រើសរើសឯកសារ
+                </span>
+                    <span *ngIf="form.get('document_type_id').hasError('servererror')">{{ form.get('document_type_id').errors.servererror }}</span>
+                </mat-error>
+            </mat-form-field>
+           
+            <mat-form-field *ngIf = " action == 'VIEW' " appearance="outline" fxFlex="33" style="width: 80%;">
+                <mat-label> ប្រភេទឯកសារ </mat-label>
+                <input matInput [value] = " documentTypeStr "  readonly>
+                <mat-icon matSuffix class="secondary-text">book</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" fxFlex="34" class="px-8">
+                <mat-label>{{ documentNumberLabel }}</mat-label>
+                <input matInput formControlName="document_number" required>
+                <mat-icon matSuffix class="secondary-text">receipt</mat-icon>
+                <mat-error>​
+                    <span *ngIf="form.get('document_number').hasError('required')">
+                    សូមបញ្ជូល {{ documentNumberLabel }} 
+                </span>
+                    <span *ngIf="form.get('document_number').hasError('servererror')">{{ form.get('document_number').errors.servererror }}</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field *ngIf = " action != 'VIEW' " appearance="outline" fxFlex="33" style="width: 80%;">
+                <mat-label> សញ្ញាតិ </mat-label>
+                <input type="text" matInput formControlName="nationality_id" [matAutocomplete]="autoType">
+                <mat-icon matSuffix class="secondary-text">language</mat-icon>
+                <mat-autocomplete #autoType="matAutocomplete" [displayWith]="displayNationalityFn">
+                    <mat-option *ngFor="let option of filteredNationality | async" [value]="option">
+                        {{option.description_in_khmer}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error>
+                    <span *ngIf="form.get('nationality_id').hasError('required')">
+                    សូមបញ្ជូល សញ្ញាតិ
+                </span>
+                    <span *ngIf="form.get('nationality_id').hasError('servererror')">{{ form.get('nationality_id').errors.servererror }}</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field *ngIf = " action == 'VIEW' " appearance="outline" fxFlex="33" style="width: 80%;">
+                <mat-label> សញ្ញាតិ </mat-label>
+                <input matInput [value] = " nationalityTypeStr "  readonly>
+                <mat-icon matSuffix class="secondary-text">language</mat-icon>
+            </mat-form-field>
+        </div>
+
+        <!-- ==================================================================== Address ======================================================== -->
+        <div class="h4 mb-24">
+            <span style="color: rgba(4, 155, 229, 1);">ព័ត៌មានទំនាក់ទំនង</span>
+            <mat-divider></mat-divider>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+            <mat-form-field appearance="outline" fxFlex="">
+                <mat-label>លេខទូរសព្ទ</mat-label>
+                <input matInput formControlName="phone" required>
+                <mat-icon matSuffix class="secondary-text">smartphone</mat-icon>
+                <mat-error>
+                    <span *ngIf="form.get('phone').hasError('required')">
+                    សូមបញ្ជូលលេខទូរសព្ទ
+                </span>
+                    <span *ngIf="form.get('phone').hasError('pattern')">សូមបញ្ចូលលេខទូរសព្ទ Ex: 070999999</span>
+                    <span *ngIf="form.get('phone').hasError('servererror')">{{ form.get('phone').errors.servererror }}</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" fxFlex="" class="px-8">
+                <mat-label>អ៊ុីមែល</mat-label>
+                <input matInput formControlName="email">
+                <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+                <mat-error>
+                    <span *ngIf="form.get('email').hasError('required')">
+                    សូមបញ្ជូលអ៊ុីមែល
+                </span>
+                    <span *ngIf="form.get('email').hasError('servererror')">{{ form.get('email').errors.servererror }}</span>
+                </mat-error>
+            </mat-form-field>
+
+
+
+        </div>
+
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center" fxFlex="1 0 auto" >
+
+            <mat-form-field appearance="outline" fxFlex="" style="width: 80%;">
+                <mat-label>ជ្រើសរើសខេត្ត</mat-label>
+                <mat-select required formControlName="province" (selectionChange)=" districtFillter($event)" >
+                    <mat-option  *ngFor="  let row of provinces " [value]=" row?.province_id " >
+                        {{row?.province_name_kh}}
+                    </mat-option>
+                </mat-select>
+                <mat-icon matSuffix class="secondary-text">outlined_flag</mat-icon>
+                <mat-error>
+                    <span *ngIf="form.get('province').hasError('required')">
+                    សូមជ្រើសរើសខេត្ត
+                </span>
+                    <span *ngIf="form.get('province').hasError('servererror')">{{ form.get('province').errors.servererror }}</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" fxFlex="" class="px-8" style="width: 80%;">
+                <mat-label>ជ្រើសរើសស្រុក</mat-label>
+                <mat-select required style="width: 100%;" formControlName="district" (selectionChange)=" communeFillter($event)">
+                    <mat-option *ngFor="  let row of districts " [value]=" row?.code ">
+                        {{ row?.kh_name }}
+                    </mat-option>
+
+                </mat-select>
+                <mat-icon matSuffix class="secondary-text">outlined_flag</mat-icon>
+                <mat-error>
+                    <span *ngIf="form.get('district').hasError('required')">
+                    សូមជ្រើសរើសស្រុក
+                </span>
+                    <span *ngIf="form.get('district').hasError('servererror')">{{ form.get('district').errors.servererror }}</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" fxFlex="" class="px-8" style="width: 80%;">
+                <mat-label>ជ្រើសរើសឃុំ</mat-label>
+                <mat-select required formControlName="commune" (selectionChange)=" villageFillter($event) ">
+                    <mat-option *ngFor="  let row of communes " [value]=" row?.code ">
+                        {{ row?.kh_name }}
+                    </mat-option>
+                </mat-select>
+                <mat-icon matSuffix class="secondary-text">outlined_flag</mat-icon>
+                <mat-error>
+                    <span *ngIf="form.get('commune').hasError('required')">
+                    សូមជ្រើសរើសឃុំ
+                </span>
+                    <span *ngIf="form.get('commune').hasError('servererror')">{{ form.get('commune').errors.servererror }}</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" fxFlex="" style="width: 80%;">
+                <mat-label>ភូមិ</mat-label>
+                <mat-select formControlName="place_id" required>
+                    <mat-option *ngFor="  let row of villages " [value]=" row?.code ">
+                        {{ row?.kh_name }}
+                    </mat-option>
+
+                </mat-select>
+                <mat-icon matSuffix class="secondary-text">outlined_flag</mat-icon>
+                <mat-error>
+                    <span *ngIf="form.get('place_id').hasError('required')">
+                    សូមជ្រើសរើសភូមិ
+                </span>
+                    <span *ngIf="form.get('place_id').hasError('servererror')">{{ form.get('place_id').errors.servererror }}</span>
+                </mat-error>
+            </mat-form-field>
+
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+            <mat-form-field appearance="outline" fxFlex="100">
+                <mat-label>អាសយដ្ឋាន</mat-label>
+                <input matInput formControlName="address">
+                <mat-icon matSuffix class="secondary-text">home</mat-icon>
+                <mat-error>
+                    <span *ngIf="form.get('address').hasError('required')">
+                    សូមបំពេញអាសយដ្ឋាន
+                </span>
+                    <span *ngIf="form.get('address').hasError('servererror')">{{ form.get('address').errors.servererror }}</span>
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <ng-container *ngIf=" action != 'VIEW' ">
+            <mat-divider></mat-divider>
+            <mat-progress-bar *ngIf="isLoading" mode="buffer"></mat-progress-bar>
+            <mat-divider></mat-divider>
+        </ng-container>
+        <div *ngIf=" action != 'VIEW' " fxLayout="row" fxLayoutAlign="end center" fxFlex="1 0 auto" class="pt-20 ">
+            <button [disabled]="isLoading" *ngIf=" action == 'CREATE' " mat-raised-button color="primary">បង្កើតថ្មី</button>
+            <button *ngIf=" action != 'CREATE' " mat-raised-button color="primary">កែតម្រូវ</button>
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,7 @@
+# task file for setup
+- name: Install pre-requisites
+  pip:
+    name:
+      - openshift
+      - pyyaml
+      - kubernetes

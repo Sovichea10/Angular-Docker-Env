@@ -1,0 +1,187 @@
+
+<section class="content-frm-title pl-24 pr-24 pt-24 pb-20 ">
+    <div class="h2">
+      <span> {{title}} </span>
+    </div>
+</section>
+
+<section class="filter" >
+    <div *ngIf="checkValidData(profitCenters)" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+        <mat-form-field  fxFlex="100" appearance="outline">
+            <mat-select  placeholder="កន្លែងផ្តល់សេវា" [(ngModel)]="profit_center">
+                <mat-option [value]="null">
+                    <span > [--មិនជ្រើសរើស--]</span> 
+                 </mat-option>
+                <mat-option *ngFor="let row of profitCenters" [value]="row.code">
+                   <span > [{{row.code}}] {{row.name_kh}}</span> 
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div *ngIf="checkValidData(companies)" fxLayout="row" fxLayoutAlign="start center">
+        <mat-form-field fxFlex="100" appearance="outline">
+            <mat-select  placeholder="ក្រុមហ៊ុន" [(ngModel)]="company">
+                <mat-option [value]="null">
+                    <span > [--មិនជ្រើសរើស--]</span> 
+                 </mat-option>
+                <mat-option *ngFor="let row of companies" [value]="row.name">
+                   <span > {{row.name}}</span> 
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div *ngIf=" checkValidData(banks) " fxLayout="row" fxLayoutAlign="start center">
+        <mat-form-field fxFlex="100" appearance="outline">
+            <mat-select  placeholder="ធនាគារ" [(ngModel)]="bank">
+                <mat-option [value]="null">
+                    <span > [--មិនជ្រើសរើស--]</span> 
+                 </mat-option>
+                <mat-option *ngFor="let row of banks" [value]="row.code">
+                   <span > {{row.name_kh}}</span> 
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start stretch"  fxLayoutGap="20px">
+        <mat-form-field fxFlex="50" fxFlex.xs="100" appearance="outline">
+            <mat-select  placeholder="វដ្ដ" [(ngModel)]="date_cycle" (ngModelChange)="dateSetupChange()">
+                <mat-option [value]="null">
+                    <span > [--មិនជ្រើសរើស--]</span> 
+                 </mat-option>
+                <mat-option *ngFor="let row of date_cycles" [value]="row.id">
+                   <span > {{row.name_kh}}</span> 
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <ng-container *ngIf = " date_cycle == '1' ">
+            <!-- <mat-form-field fxFlex="50" fxFlex.xs="100" appearance="outline">
+                <mat-select  placeholder="ចាប់ពីឆ្នាំ" [(ngModel)]="year_from" (ngModelChange)="getYearTo()">
+                    <mat-option [value]="null">
+                        <span > [--មិនជ្រើសរើស--]</span> 
+                     </mat-option>
+                    <mat-option *ngFor="let row of year_froms" [value]="row">
+                       <span > {{row}}</span> 
+                    </mat-option>
+                </mat-select>
+            </mat-form-field> -->
+            <mat-form-field fxFlex="50" fxFlex.xs="100" appearance="outline">
+                <mat-select  placeholder="ជ្រើសរើសឆ្នាំ" [(ngModel)]="year_from" >
+                    <mat-option [value]="null">
+                        <span > [--មិនជ្រើសរើស--]</span> 
+                     </mat-option>
+                    <mat-option *ngFor="let row of year_froms" [value]="row">
+                       <span > {{row}}</span> 
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- <mat-form-field fxFlex="50" fxFlex.xs="100" appearance="outline">
+                <mat-select  placeholder="រហូតដល់ឆ្នាំ" [(ngModel)]="year_to" >
+                    <mat-option [value]="null">
+                        <span > [--មិនជ្រើសរើស--]</span> 
+                     </mat-option>
+                    <mat-option *ngFor="let row of year_tos" [value]="row">
+                       <span > {{row}}</span> 
+                    </mat-option>
+                </mat-select>
+            </mat-form-field> -->
+        </ng-container>
+
+        <ng-container *ngIf = " date_cycle == '2' ">
+            <!-- <mat-form-field fxFlex="50" fxFlex.xs="100" appearance="outline">
+                <mat-select  placeholder="ជ្រើសរើស ខែ" [(ngModel)]="month_from" (ngModelChange)="getMonthTo()">
+                    <mat-option [value]="null">
+                        <span > [--មិនជ្រើសរើស--]</span> 
+                     </mat-option>
+                    <mat-option *ngFor="let row of month_froms" [value]="row">
+                       <span > {{row}}</span> 
+                    </mat-option>
+                </mat-select>
+            </mat-form-field> -->
+            <mat-form-field fxFlex="50" fxFlex.xs="100" appearance="outline">
+                <mat-select  placeholder="ជ្រើសរើស ខែ" [(ngModel)]="month_from">
+                    <mat-option [value]="null">
+                        <span > [--មិនជ្រើសរើស--]</span> 
+                     </mat-option>
+                    <mat-option *ngFor="let row of month_froms" [value]="row">
+                       <span > {{row}}</span> 
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- <mat-form-field fxFlex="50" fxFlex.xs="100" appearance="outline">
+                <mat-select  placeholder="រហូតដល់ខែ" [(ngModel)]="month_to" >
+                    <mat-option [value]="null">
+                        <span > [--មិនជ្រើសរើស--]</span> 
+                     </mat-option>
+                    <mat-option *ngFor="let row of month_tos" [value]="row">
+                       <span > {{row}}</span> 
+                    </mat-option>
+                </mat-select>
+            </mat-form-field> -->
+        </ng-container>
+
+        <ng-container *ngIf = " date_cycle == '3' ">
+            <mat-form-field fxFlex="50" appearance="outline">
+                <mat-label> ពី </mat-label>
+                <input (click)="from_picker.open()" (dateChange)="validateToDate()" matInput [(ngModel)]="from" [matDatepicker]="from_picker" style = " cursor:pointer " [readonly] = " true ">
+                <mat-datepicker-toggle matSuffix [for]="from_picker"></mat-datepicker-toggle>
+                <mat-datepicker #from_picker ></mat-datepicker>
+            </mat-form-field>
+    
+            <mat-form-field fxFlex="50" appearance="outline">
+                <mat-label> ដល់ </mat-label>
+                <input (click)="to_picker.open()" [(ngModel)]="to" matInput [matDatepicker]="to_picker" style = " cursor:pointer " [readonly] = " true " [min]="min_from" [max]="max_to">
+                <mat-datepicker-toggle matSuffix [for]="to_picker"></mat-datepicker-toggle>
+                <mat-datepicker #to_picker ></mat-datepicker>
+            </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngIf = " date_cycle == '4' ">
+            <mat-form-field fxFlex="50" fxFlex.xs="100" appearance="outline">
+                <mat-select  placeholder="ជ្រើសរើស ខែ" [(ngModel)]="month" >
+                    <mat-option [value]="null">
+                        <span > [--មិនជ្រើសរើស--] </span> 
+                     </mat-option>
+                    <mat-option *ngFor="let row of months" [value]="row">
+                       <span > {{row}}</span> 
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            
+            <mat-form-field fxFlex="50" fxFlex.xs="100" appearance="outline">
+                <mat-select  placeholder="ដើមខែ ឫ ចុងខែ" [(ngModel)]="monthList" >
+                    <mat-option [value]="null">
+                        <span > [--មិនជ្រើសរើស--] </span> 
+                     </mat-option>
+                    <mat-option *ngFor="let row of midMonthLists" [value]="row.id">
+                       <span > {{row.name}}</span> 
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </ng-container>
+        
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center center" > 
+        <button class="btn-height" *ngIf="showButton == 'all'" mat-flat-button color="primary" (click)=" listing('listing') " [disabled]="validate()"> បង្ហាញ </button>
+        <button class="btn-height" *ngIf="showButton == 'all'" mat-flat-button color="primary" (click)=" listing('download-pdf') " style="margin-left: 5px;" [disabled]="validate()"> ទាញ PDF </button>
+        <button class="btn-height" *ngIf="showButton == 'all' || showButton == 'excel'" mat-flat-button color="primary" (click)=" listing('download') " style="margin-left: 5px;" [disabled]="validate()"> ទាញ Excel </button>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="end end">
+        <p style="font-size:1.2em;font-family: 'KhmerOSsys';">
+            សម្គាល់ ៖ បិទបញ្ជីត្រឹមម៉ោង 17:00 ថ្ងៃនីមួយៗ និង ថ្ងៃទី 25 នៃខែនីមួយៗ​
+        </p>
+    </div>
+
+</section>
+
+<section class="listing">
+    <ng-container *ngIf=" pdfSrc ">
+        <iframe [src]="pdfSrc" style="width:100%; height:700px;" frameborder="0" ></iframe>
+    </ng-container>
+</section>
+

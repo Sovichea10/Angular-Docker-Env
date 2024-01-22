@@ -1,0 +1,11 @@
+// Import Fuse core library
+@import "@fuse/scss/core";
+
+@import "assets/fonts/mpwt-font.css";
+
+// Import app.theme.scss
+@import "app/app.theme";
+@import "assets/custom";
+html, body { height: 100%; }
+body { margin: 0; font-family: KhmerOSsys,Roboto, "Helvetica Neue", sans-serif; }
+

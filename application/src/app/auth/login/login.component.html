@@ -1,0 +1,76 @@
+
+<div id="login" fxLayout="column">
+
+    <div  class="background" id="login-form-wrapper" fxLayout="column" fxLayoutAlign="center center" fxLayoutAlign.xs="start center" fxLayoutAlign.sm="start center"  >
+
+        <div id="login-form"  [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+            <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
+            <div class="logo">
+                <!-- <img src="assets/mpwt/app_icon.png"> -->
+            </div>
+
+            <div class="title">
+
+                <img src="/assets/images/backgrounds/title-OSR.png" alt="ប្រព័ន្ធរបាយការណ៍រួម" width="110%" style="margin-left: 20%;">
+
+                <div class="">
+
+                </div>
+            </div >
+
+            <form  name="loginForm" [formGroup]="loginForm" (ngSubmit)="onLogin()" novalidate>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>លេខទូរសព្ទ</mat-label>
+                    <input matInput formControlName="phone" required >
+                    <mat-icon matSuffix class="secondary-text">smartphone</mat-icon>
+                    <mat-error>
+                        <span *ngIf="loginForm.get('phone').hasError('required')">សូម​បញ្ចូល​លេខទូរសព្ទ</span>
+                        <span *ngIf="loginForm.get('phone').hasError('pattern')">សូម​បញ្ចូល​លេខទូរសព្ទតាមទម្រង់ ឧទាហរណ៍: 0xxxxxxxx </span>
+                        <span *ngIf="loginForm.get('phone').hasError('servererror')">{{ form.get('phone').errors.servererror }}</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" >
+                    <mat-label>ពាក្យសម្ងាត់</mat-label>
+                    <input matInput type="password" formControlName="password" required>
+                    <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
+                    <mat-error>
+                        <span *ngIf="loginForm.get('password').hasError('required')">សូម​បញ្ចូល​ពាក្យ​សម្ងាត់​របស់​អ្នក</span>
+                        <span *ngIf="loginForm.get('password').hasError('minlength')">ពាក្យសំងាត់ត្រូវមានចំនួន ៦ខ្ទង់យ៉ាងហោចណាស់.</span>
+                        <span *ngIf="loginForm.get('password').hasError('maxlength')">ពាក្យសំងាត់ត្រូវមានចំនួន ២០ខ្ទង់យ៉ាងច្រើនបំផុត</span>
+                        <span *ngIf="loginForm.get('password').hasError('servererror')">{{ form.get('password').errors.servererror }}</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="remember-forgot-password" fxLayout="row" fxLayout.xs="column"
+                    fxLayoutAlign="start start">
+                    <mat-checkbox class="remember-me" aria-label="Remember Me">
+                        ចងចាំ!
+                    </mat-checkbox>
+
+                    <!-- <a class="forgot-password" [routerLink]="['/auth/forgot-password']">
+                        ភ្លេច​លេខសំងាត់?
+                    </a> -->
+                </div>
+
+                <!-- <div class="text-center">
+                    <mat-spinner style="margin:0 auto;"  ></mat-spinner>
+                </div> -->
+                <div>
+                    <button style="width: 100%;" mat-raised-button color="primary" class="p-12 submit-button text-center" aria-label="LOG IN" [disabled]="loginForm.invalid || isLoading" ng-click="onLogin()">
+                        <mat-spinner style="margin:0 auto;  " [diameter] = 30  *ngIf = " isLoading "  ></mat-spinner> <span *ngIf = " !isLoading " >ចូលប្រព័ន្ធ</span>
+                    </button>
+                </div>
+
+
+            </form>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+

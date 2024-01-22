@@ -1,0 +1,23 @@
+---
+# tasks file for images
+- name: Copy Build Number file & Remove CRIO-Image script to remote host
+  copy:
+    src: '../../../../scripts/{{ item }}'
+    dest: '/tmp/{{ item }}'
+    mode: 0777
+  with_items: 
+    - build-number.sh
+    - remove-oldimages.sh
+
+- name: Remove CRIO-Images old version and keep the current
+  shell: >
+    bash -e /tmp/remove-oldimages.sh
+  ignore_errors: true
+
+- name: Remove files after execution
+  file: 
+    path: '/tmp/{{ item }}'
+    state: absent
+  with_items: 
+    - build-number.sh
+    - remove-oldimages.sh

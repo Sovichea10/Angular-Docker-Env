@@ -1,0 +1,23 @@
+- name: Create K8s Namespace
+  k8s:
+    name: "{{ namespace }}"
+    api_version: v1
+    kind: Namespace
+    state: present
+
+# =================================================================>> Secret Private Registry
+- name: Check if Secret private registry already exists
+  shell: >
+    kubectl get secret private-registry -n {{ namespace }}
+  register: secret_check
+  ignore_errors: true
+
+- debug:
+    var: secret_check
+
+- name: Create Secret private registry
+  shell: >
+    kubectl create secret docker-registry private-registry --docker-server={{ item.name }}:{{ item.port }} --docker-username={{ item.user }} --docker-password={{ item.password }} -n {{ namespace }}
+  with_items:
+    - "{{ registry }}"
+  when: secret_check.rc != 0

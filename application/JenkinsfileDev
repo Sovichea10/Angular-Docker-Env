@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    environment {
+        BOT_TOKEN = credentials('telegram-botToken')
+        CHAT_ID = credentials('telegram-chatID')
+    }
+
+    stages {
+        stage('Started') {
+            steps {
+                echo 'Welcome to Jenkins'
+            }
+        }
+        stage('Deployment') {
+            steps {
+                sh 'ssh -o StrictHostKeyChecking=no sovichea@172.19.24.24 "cd /apps/dev/ossr/ossr-web-angular;\
+                git reset --hard;\
+                git fetch;\
+                git checkout dev;\
+                git pull;\
+                "'
+            }
+        }
+    }
+        post{
+        success{
+            sh '''
+            bash scripts/dev-alert-telegram.sh SUCCESS🟢;\
+            '''
+        }
+        failure{
+            sh '''
+            bash scripts/dev-alert-telegram.sh FAILURE🔴;\
+            '''
+        }
+    }
+}

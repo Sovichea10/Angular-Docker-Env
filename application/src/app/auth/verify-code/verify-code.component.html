@@ -1,0 +1,51 @@
+<div id="login" fxLayout="column">
+
+    <div id="login-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+
+        <div id="login-form" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+            <div class="logo">
+                <img src="assets/mpwt/logos.png">
+            </div>
+            <div class="title">ផ្ទៀងផ្ទាត់លេខកូដ</div>
+
+            <form name="form" [formGroup]="form" (ngSubmit)="verifyCode()" novalidate>
+
+              
+                <mat-form-field appearance="outline">
+                    <mat-label>លេខកូដ</mat-label>
+                    <input matInput formControlName="code" required>
+                    <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
+                    <mat-error>
+                        <span *ngIf="form.get('code').hasError('required')">សូម​បញ្ចូល​ពាក្យ​សម្ងាត់​ទាំង៦ខ្ទង់</span>  
+                        <span *ngIf="form.get('code').hasError('minlength')">ពាក្យសំងាត់ត្រូវមានចំនួន ៦ខ្ទង់យ៉ាងហោចណាស់.</span>
+                        <span *ngIf="form.get('code').hasError('servererror')">{{ form.get('code').errors.servererror }}</span>
+                    </mat-error> 
+                </mat-form-field>
+     
+                <div class="text-center">
+                    <div>លេខកូដ OTP បានផ្ញើទៅលេខទូរសព្ទរបស់លោកអ្នក រយៈពេល <span id="timer"></span></div>
+                </div>
+                
+                <div class="verify-code">
+                    <button mat-raised-button color="accent" class="submit-button text-center" aria-label="LOG IN" [disabled]="form.invalid || isLoading" ng-click="verifyCode()">
+                        <mat-spinner style="margin:0 auto; " [diameter] = 30  *ngIf = " isLoading "  ></mat-spinner> <span *ngIf = " !isLoading " >ផ្ទៀងផ្ទាត់</span>
+                    </button>
+                </div>
+
+                <div class="re-send">
+                    <button mat-raised-button color="accent" class="submit-button text-center" aria-label="LOG IN" [disabled]="isResendLoading" (click)="reSendCode()" >
+                        <mat-spinner style="margin:0 auto; " [diameter] = 30  *ngIf = " isResendLoading "  ></mat-spinner> <span *ngIf = " !isResendLoading " >ផ្ញើរមង្តទៀត</span>
+                    </button>
+                </div>
+
+            </form>
+
+            <div class="additional-info">
+                <a [routerLink]="['/auth/login']">ត្រលប់ទៅចូលប្រព័ន្ធ</a>
+              </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,145 @@
+
+<ng-container *ngIf="token">
+    <div id="login" fxLayout="column">
+
+        <form-search-report 
+        [title]="'តារាងបង្វែប្រាក់រង្វាន់'"
+        [profitCenters]="profitCenters"  
+        [companies]=""
+        [date_cycles]="date_cycles"
+        [setup] ="setup"
+        [formReport] ="'transfer-income'"
+        [showButton] ="'all'"
+        [apiUrlPdf] = "'/report/report/transfer-financial-request-file'"
+        [apiUrlExcel] = "'/report/report/transfer-financial-request-excel-file'"
+        [token] = "token"
+        [system] = "system"
+        [profit_center] = "profit_center"
+        [profit_center_admin] = "profit_center"
+        [company]       = "company"
+        >
+        </form-search-report>
+
+        <!-- <section class="pl-24 pr-24 pt-24 pb-20 " style="background: #c5bbbb45;">
+            <div class="h2">
+              <span> តារាងបង្វែប្រាក់រង្វាន់ </span>
+            </div>
+        </section>
+        <div id="login-form-wrapper" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" *ngIf="isAdmin">
+                   
+                    <mat-form-field  fxFlex="100" appearance="outline">
+                        <mat-select  placeholder="កន្លែងផ្តល់សេវា" [(ngModel)]="profit_center" class="financial-report-form">
+                            <mat-option [value]="null">
+                                <span > [--មិនជ្រើសរើស--]</span> 
+                            </mat-option>
+                            <mat-option *ngFor="let row of profitCenters" [value]="row.code">
+                            <span > [{{row.code}}] {{row.name_kh}}</span> 
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start stretch"  fxLayoutGap="20px">
+                    <mat-form-field fxFlex="50" fxFlex.xs="100" appearance="outline">
+                        <mat-select  placeholder="វដ្ដ" [(ngModel)]="date_cycle" (ngModelChange)="dateSetupChange()" class="financial-report-form">
+                            <mat-option [value]="null">
+                                <span > [--មិនជ្រើសរើស--]</span> 
+                            </mat-option>
+                            <mat-option *ngFor="let row of date_cycles" [value]="row.id">
+                            <span > {{row.name_kh}}</span> 
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+            
+                    <ng-container *ngIf = " date_cycle == '1' ">
+                        <mat-form-field fxFlex="50" fxFlex.xs="100" appearance="outline">
+                            <mat-select  placeholder="ចាប់ពីឆ្នាំ" [(ngModel)]="year_from" (ngModelChange)="getYearTo()" class="financial-report-form">
+                                <mat-option [value]="null">
+                                    <span > [--មិនជ្រើសរើស--]</span> 
+                                </mat-option>
+                                <mat-option *ngFor="let row of year_froms" [value]="row">
+                                <span > {{row}}</span> 
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="50" fxFlex.xs="100" appearance="outline">
+                            <mat-select  placeholder="រហូតដល់ឆ្នាំ" [(ngModel)]="year_to" class="financial-report-form">
+                                <mat-option [value]="null">
+                                    <span > [--មិនជ្រើសរើស--]</span> 
+                                </mat-option>
+                                <mat-option *ngFor="let row of year_tos" [value]="row">
+                                <span > {{row}}</span> 
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </ng-container>
+                    <ng-container *ngIf = " date_cycle == '2' ">
+                        <mat-form-field fxFlex="50" fxFlex.xs="100" appearance="outline">
+                            <mat-select  placeholder="ចាប់ពីខែ" [(ngModel)]="month_from" (ngModelChange)="getMonthTo()" class="financial-report-form">
+                                <mat-option [value]="null">
+                                    <span > [--មិនជ្រើសរើស--]</span> 
+                                </mat-option>
+                                <mat-option *ngFor="let row of month_froms" [value]="row">
+                                <span > {{row}}</span> 
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="50" fxFlex.xs="100" appearance="outline">
+                            <mat-select  placeholder="រហូតដល់ខែ" [(ngModel)]="month_to" class="financial-report-form">
+                                <mat-option [value]="null">
+                                    <span > [--មិនជ្រើសរើស--]</span> 
+                                </mat-option>
+                                <mat-option *ngFor="let row of month_tos" [value]="row">
+                                <span > {{row}}</span> 
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </ng-container>
+                    <ng-container *ngIf = " date_cycle == '3' ">
+                        <mat-form-field fxFlex="50" appearance="outline">
+                            <mat-label class="financial-report-form-date"> ពី </mat-label>
+                            <input (click)="from_picker.open()" matInput [(ngModel)]="from" [matDatepicker]="from_picker" style = " cursor:pointer " [readonly] = " true ">
+                            <mat-datepicker-toggle matSuffix [for]="from_picker"></mat-datepicker-toggle>
+                            <mat-datepicker #from_picker ></mat-datepicker>
+                        </mat-form-field>
+                
+                        <mat-form-field fxFlex="50" appearance="outline">
+                            <mat-label class="financial-report-form-date"> ដល់ </mat-label>
+                            <input (click)="to_picker.open()" [(ngModel)]="to" matInput [matDatepicker]="to_picker" style = " cursor:pointer " [readonly] = " true " [min]="from">
+                            <mat-datepicker-toggle matSuffix [for]="to_picker"></mat-datepicker-toggle>
+                            <mat-datepicker #to_picker ></mat-datepicker>
+                        </mat-form-field>
+                    </ng-container>
+            
+                </div>
+                
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <button class="financial-report-search" mat-flat-button color="primary" (click)=" listing('listing') "> ស្វែងរក </button>
+                    <button class="financial-report-search" mat-flat-button color="primary" (click)=" listing('download') " style="margin-left: 5px;"> ទាញយក Excel </button>
+                </div>
+    
+                <div fxLayout="row" fxLayoutAlign="end end">
+                    <p style="font-size:1.2em;">
+                        សម្គាល់ ៖ បិតបញ្ជីត្រឹមម៉ោង 17:00 ថ្ងៃនីមួយៗ និង ថ្ងៃទី 25 នៃខែនីមួយៗ​
+                    </p>
+                </div>
+               
+                <div class="container-financial"> 
+                    <iframe [src]="pdfSrc" style="width:100%; height:700px;" frameborder="0"></iframe>
+                </div>
+        </div> -->
+    
+    </div>
+</ng-container>
+<ng-container *ngIf="!token">
+    <div id="login" fxLayout="column">
+        <div id="login-form-wrapper" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px">
+            <div fxLayout="row" fxLayoutAlign="center center">
+                <p style="font-size:1.2em;">
+                    Token not found
+                </p>
+            </div>
+        </div>
+    </div>
+</ng-container>

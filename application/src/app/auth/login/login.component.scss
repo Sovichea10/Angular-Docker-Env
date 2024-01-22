@@ -1,0 +1,337 @@
+@import "src/@fuse/scss/fuse";
+
+
+
+login {
+    #login {
+        width: 100%;
+        .line {
+            border-top: 1px solid rgb(221, 221, 221) ; width: 162px; margin-left: 44% ; margin-top: 20px;
+        }
+        .background {
+            /* Add image */
+            background-image: url("/assets/images/backgrounds/background and art.jpg");
+            /* Make image fixed */
+            background-attachment: fixed;
+            /* Not repeat images */
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        @media only screen and(min-width: 300px) and (max-width: 700px) {
+
+            .background{
+                 background-image: url("/assets/images/backgrounds/leftbackground.jpg");
+            } 
+         
+         }
+
+
+        /* Media query for mobile devices  */
+        @media only screen and (max-width: 620px) {
+
+           .background{
+                background-image: url("/assets/images/backgrounds/leftbackground.jpg");
+           } 
+      
+        
+        }
+
+        @media only screen and (min-width: 700px) and (max-width: 1100px) {
+
+            .background{
+                background-image: url("/assets/images/backgrounds/leftbackground.jpg");
+            } 
+            
+        }
+
+        @media only screen and (min-width: 800px) and (max-width: 1200px) {
+
+            .background{
+                background-image: url("/assets/images/backgrounds/leftbackground.jpg");
+            } 
+            
+     
+        }
+
+        @media only screen and (min-width: 900px) and (max-width: 1400px)  {
+
+            .background{
+                background-image: url("/assets/images/backgrounds/leftbackground.jpg");
+            } 
+            .line{
+                border-top: 1px solid rgb(221, 221, 221) ; width: 240px; 
+                margin-left: 45% ; margin-top: 20px;
+
+            }
+            
+        }
+
+        @media only screen and (min-width: 1400px) and (max-width: 1500px) {
+            .background {
+                background-image: url("/assets/images/backgrounds/leftbackground.jpg");
+            }
+            .line{
+                border-top: 1px solid rgb(221, 221, 221) ; width: 240px; 
+                margin-left: 45% ; margin-top: 20px;
+
+            }
+        }
+
+        // @media only screen and (min-width: 1500px) and (max-width: 1600px) {
+        //     .background {
+        //         background-image: url("/assets/images/backgrounds/leftbackground.jpg");
+        //     }
+        // }
+
+
+        #login-form-wrapper {
+            flex: 1 0 auto;
+            padding: 32px;
+
+            @include media-breakpoint('xs') {
+                padding: 16px;
+            }
+        
+ 
+            #login-form {
+                margin-right: 60%;
+                border-radius: 10px !important;
+                width: 384px;
+                max-width: 384px;
+                padding: 32px;
+                text-align: center;
+                // background-color: white;
+                // @include mat-elevation(16);
+
+                @include media-breakpoint('xs') {
+                    padding: 24px;
+                    width: 100%;
+                }
+
+                .logo {
+                    width: 128px;
+                    margin: 32px auto;
+                }
+
+                .title {
+                    font-size: 20px;
+                    margin: 16px 0 32px 0;
+                }
+
+                form {
+                    width: 140%;
+                    text-align: left;
+
+                    mat-form-field {
+                        width: 100%;
+                    }
+
+                    mat-checkbox {
+                        margin: 0;
+
+                    }
+
+                    .remember-forgot-password {
+                        font-size: 13px;
+                        margin-top: 8px;
+
+                        .remember-me {
+                            margin-bottom: 16px
+                        }
+
+                        .forgot-password {
+                            font-size: 13px;
+                            font-weight: 600;
+                            margin-bottom: 16px
+                        }
+                    }
+
+                    .submit-button {
+                        width: 200px;
+                        margin: 16px auto;
+                        display: block;
+
+                        @include media-breakpoint('xs') {
+                            width: 90%;
+                        }
+                    }
+                }
+
+                @media only screen and (max-width: 620px) {
+                
+                    form {
+                      width:100%;
+                      margin-left: 35%;
+                    }
+
+                    .title{
+                        width: 85%;
+                        margin-left: 28%;
+                    }
+            
+                }
+
+                @media only screen and (min-width: 500px) and (max-width: 700px) {
+                    form {
+                        width:100%;
+                        margin-left: 45%;
+                    }
+                    
+                    .title{
+                        width:100%;
+                        margin-left:24%;
+                    }
+              
+                }
+
+                @media only screen and (min-width: 700px) and (max-width: 1100px) {
+                    form {
+                        width:150%;
+                        margin-left: 43%;
+                    }
+                    
+                    .title{
+                        width:120%;
+                        margin-left:38%;
+                    }
+              
+                }
+
+
+
+                @media only screen and (min-width: 800px) and (max-width: 1200px) {
+                    form {
+                        width:150%;
+                        margin-left: 50%;
+                    }
+                    
+                    .title{
+                        width:120%;
+                        margin-left: 45%;
+                        padding-top: 50px;
+                    }
+        
+                }
+
+                @media only screen and (min-width: 900px) and (max-width: 1400px) {
+                    form {
+                        width: 200%;
+                        margin-left: 30%;
+                    }
+                    
+                    .title{
+                        width:150%;
+                        margin-left: 30%;
+                    }
+                  
+                }
+
+                @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                    form {
+                        width: 180%;
+                        margin-left: 75%;
+                    }
+                    
+                    .title{
+                        width:140%;
+                        margin-left: 70%;
+                    }
+                }
+
+                @media only screen and (min-width: 1300px) and (max-width: 1400px) {
+                    form {
+                        width: 200%;
+                        margin-left: 75%;
+                    }
+                    
+                    .title{
+                        width:150%;
+                        margin-left: 73%;
+                    }
+                }
+
+                @media only screen and (min-width: 1400px) and (max-width: 1500px) {
+                    form {
+                        width: 200%;
+                        margin-left: 75%;
+                    }
+                    
+                    .title{
+                        width:150%;
+                        margin-left: 73%;
+                    }
+                }
+        
+
+                
+                .register {
+                    margin: 32px auto 24px auto;
+                    font-weight: 600;
+
+                    .text {
+                        margin-right: 8px;
+                    }
+                }
+
+                .separator {
+                    font-size: 15px;
+                    font-weight: 600;
+                    margin: 24px auto;
+                    position: relative;
+                    overflow: hidden;
+                    width: 100px;
+
+                    .text {
+                        display: inline-flex;
+                        position: relative;
+                        padding: 0 8px;
+                        z-index: 9999;
+
+                        &:before,
+                        &:after {
+                            content: '';
+                            display: block;
+                            width: 30px;
+                            position: absolute;
+                            top: 10px;
+                            border-top: 1px solid;
+                        }
+
+                        &:before {
+                            right: 100%;
+                        }
+
+                        &:after {
+                            left: 100%;
+                        }
+                    }
+                }
+
+                button {
+
+                    &.google,
+                    &.facebook {
+                        width: 192px;
+                        text-transform: none;
+                        color: #FFFFFF;
+                        font-size: 13px;
+                    }
+
+                    @include media-breakpoint('xs') {
+                        width: 80%;
+                    }
+
+                    &.google {
+                        background-color: #D73D32;
+                        margin-bottom: 8px;
+                    }
+
+                    &.facebook {
+                        background-color: rgb(63, 92, 154);
+                    }
+                }
+            }
+        }
+    }
+}

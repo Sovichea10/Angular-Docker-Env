@@ -1,0 +1,35 @@
+# task gitlab
+# ------------------------------------------------------------------------------
+- name: Ensure gitlab is a known host for k8 cluser
+  lineinfile:
+    dest: /home/root/.ssh/known_hosts
+    create: yes
+    state: present
+    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa gitlab.mpwt.gov.kh') }}"
+
+- name: Perform a hard reset if repository exists
+  shell: git reset --hard
+  args:
+    chdir: "{{ gitlab_path }}"
+  become: true
+  when: git_repo_check.stat.exists == true
+
+- name: Clone repo and update the repo
+  ansible.builtin.git:
+    repo: git@gitlab.mpwt.gov.kh:calendar/api.git
+    dest: "{{ gitlab_path }}"
+    version: prod
+    key_file: /home/root/.ssh/id_rsa
+  # become_user: vichea
+# ------------------------------------------------------------------------------
+
+# task file to set permission
+- name: Set permissions on the destination path
+  ansible.builtin.file:
+    path: "{{ gitlab_path }}"
+    owner: root
+    group: root
+    mode: "0777"
+    recurse: yes
+
+
