@@ -62,7 +62,7 @@ Get started with Angular, learn the fundamentals and explore advanced topics on 
 ```
 
 ### Configuration
-#### Create webpack.config.js under configs folder
+#### ✅ Create webpack.config.js under configs folder
 ```
 const { EnvironmentPlugin } = require('webpack');
 module.exports = {
@@ -93,4 +93,10 @@ export const environment = {
     username: process.env.USERNAME,
     password: process.env.PASSWORD,
 };
+```
+#### ✅ Add this under json block in tsconfig.app.json and under "compilerOptions" in tsconfig.json
+```
+"types": [
+            "node"
+        ]
 ```
