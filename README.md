@@ -115,5 +115,13 @@ export const environment = {
 ##
 ### Dockerfile
 In Code Repository, I have separated two Dockerfile:
-  - Ng.Dockerfile => Run serve application
-  - Devk8s.Dockerfile => Run build and Deploy
+  - Ng.Dockerfile => *Run serve application*
+  - Devk8s.Dockerfile => *Run build and Deploy*
+
+### Docker Compose
+Docker Compose is a tool for running multi-container applications on Docker
+defined using the [Compose file format](https://compose-spec.io).
+A Compose file is used to define how one or more containers that make up
+your application are configured.
+Once you have a Compose file, you can create and start your application with a
+single command: `docker compose up`.
