@@ -134,9 +134,10 @@ services:
     container_name: ossr-f-angular
     build:
       context: ./ossr-web-angular/.
-      dockerfile: Devk8s.Dockerfile
+      dockerfile: Ng.Dockerfile
+    # Check port in angular.json
     ports:
-        - "1035:80"
+        - "1035:8080"
     environment:
         API_URL: 'https://dev-kube-osr.mpwt.gov.kh/api'
         PDF_URL: 'https://dev-kube-osr.mpwt.gov.kh/api'
