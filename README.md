@@ -119,8 +119,6 @@ In Code Repository, I have separated two `Dockerfile`:
   - Devk8s.Dockerfile => *Run build and Deploy*
 
 ### Docker Compose
-
-![Docker Compose]
 <img src="https://i0.wp.com/codeblog.dotsandbrackets.com/wp-content/uploads/2016/10/compose-logo.jpg?ssl=1" alt="angular-logo" width="120px" height="120px"/>
 Docker Compose is a tool for running multi-container applications on Docker
 defined using the [Compose file format](https://compose-spec.io).
