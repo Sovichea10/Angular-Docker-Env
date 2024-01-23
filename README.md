@@ -125,3 +125,53 @@ A Compose file is used to define how one or more containers that make up
 your application are configured.
 Once you have a Compose file, you can create and start your application with a
 single command: `docker compose up`.
+
+#### `Ng.Dockerfile`
+```
+version: '3.8'
+services:
+  osr-ng:
+    container_name: ossr-f-angular
+    build:
+      context: ./ossr-web-angular/.
+      dockerfile: Devk8s.Dockerfile
+    ports:
+        - "1035:80"
+    environment:
+        API_URL: 'https://dev-kube-osr.mpwt.gov.kh/api'
+        PDF_URL: 'https://dev-kube-osr.mpwt.gov.kh/api'
+        PRINT_URL: 'https://dev-kube-osr.mpwt.gov.kh/api'
+        FILE_URL: 'https://dev-kube-osr.mpwt.gov.kh/api'
+        USERNAME: '0965416704'
+        PASSWORD: '111111'
+    networks:
+        - project
+networks:
+  project:
+    driver: bridge
+```
+#### `Devk8s.Dockerfile`
+```
+version: '3.8'
+services:
+  osr-build:
+    container_name: ossr-f-angular
+    # build time
+    build:
+      context: ./ossr-web-angular/.
+      dockerfile: Devk8s.Dockerfile
+      args:
+        API_URL: 'https://dev-kube-osr.mpwt.gov.kh/api'
+        PDF_URL: 'https://dev-kube-osr.mpwt.gov.kh/api'
+        PRINT_URL: 'https://dev-kube-osr.mpwt.gov.kh/api'
+        FILE_URL: 'https://dev-kube-osr.mpwt.gov.kh/api'
+        USERNAME: '0965416704'
+        PASSWORD: '111111'
+    ports:
+        - "1035:80"
+    networks:
+        - ossr_web
+networks:
+  ossr_web:
+    driver: bridge
+```
