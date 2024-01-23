@@ -53,11 +53,44 @@ Get started with Angular, learn the fundamentals and explore advanced topics on 
 - docker-compose
 
 ### Package Installation - Add package dependencies in package.json 
-##
 #### *Note: Make sure you have to choose compatible version*
 ```
 "@angular-builders/custom-webpack": "8.1.0",
 "@types/node": "8.9.5",
 "@types/webpack": "^5.28.5",
 "dotenv": "8.1.0"
+```
+
+### Configuration
+#### Create webpack.config.js under configs folder
+```
+const { EnvironmentPlugin } = require('webpack');
+module.exports = {
+    plugins: [
+        new EnvironmentPlugin([
+            'API_URL',
+            'PDF_URL',
+            'PRINT_URL',
+            'FILE_URL',
+            'USERNAME',
+            'PASSWORD'
+        ])
+    ]
+};
+```
+*Variables from environment.prod.ts*
+```
+export const environment = {
+    production: true,
+    hmr       : false, 
+    token: 'temp-token',
+
+    apiUrl: process.env.API_URL,
+    pdfUrl: process.env.PDF_URL,
+    printUrl: process.env.PRINT_URL,
+    fileUrl: process.env.FILE_URL,
+
+    username: process.env.USERNAME,
+    password: process.env.PASSWORD,
+};
 ```
