@@ -112,5 +112,8 @@ export const environment = {
 ```
 "builder": "@angular-builders/custom-webpack:dev-server"
 ```
-####
+##
 ### Dockerfile
+In Code Repository, I have separated two Dockerfile:
+  - Ng.Dockerfile => Run serve application
+  - Devk8s.Dockerfile => Run build and Deploy
