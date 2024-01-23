@@ -60,9 +60,8 @@ Get started with Angular, learn the fundamentals and explore advanced topics on 
 "@types/webpack": "^5.28.5",
 "dotenv": "8.1.0"
 ```
-
-### Configuration
 ##
+### Configuration
 #### ✅ Create webpack.config.js under configs folder
 ```
 const { EnvironmentPlugin } = require('webpack');
