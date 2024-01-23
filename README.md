@@ -62,6 +62,7 @@ Get started with Angular, learn the fundamentals and explore advanced topics on 
 ```
 
 ### Configuration
+##
 #### ✅ Create webpack.config.js under configs folder
 ```
 const { EnvironmentPlugin } = require('webpack');
