@@ -100,3 +100,15 @@ export const environment = {
             "node"
         ]
 ```
+#### ✅ In Angular.json, add this under "build" block
+```
+"builder": "@angular-builders/custom-webpack:browser",
+"options": {
+  "customWebpackConfig": {
+    "path": "./configs/webpack.config.js"
+  }
+```
+#### Under "server" block
+```
+"builder": "@angular-builders/custom-webpack:dev-server"
+```
